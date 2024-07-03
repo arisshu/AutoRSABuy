@@ -29,7 +29,7 @@ if os.getenv("FENNELEMAIL") != "":
     try:
         f.loginSession(os.getenv("FENNELEMAIL"))
         print(f"{clrs.c.GREEN}! Logged in Funnel{clrs.c.END}")
-        #FENNEL = True
+        FENNEL = True
     except:
         print(f"{clrs.c.RED} INVALID credential or INVALID verification code, skipping... {clrs.c.END}")
         pass
@@ -59,7 +59,7 @@ if (os.getenv("PUBLIC1_EMAIL") and os.getenv("PUBLIC1_PASS")) != "":
         p.loginSession(os.getenv("PUBLIC1_EMAIL"),os.getenv("PUBLIC1_PASS"))
         #print(os.getenv("PUBLIC1_EMAIL"))
         print(f"{clrs.c.GREEN}! Logged in Public 1{clrs.c.END}")
-        #PUBLIC1 = True
+        PUBLIC1 = True
     except:
         print(f"{clrs.c.RED} INVALID credential, skipping...{clrs.c.END} ")
         pass
@@ -72,7 +72,7 @@ if (os.getenv("PUBLIC2_EMAIL") and os.getenv("PUBLIC2_PASS")) != "":
     try:
         p.loginSession(os.getenv("PUBLIC2_EMAIL"),os.getenv("PUBLIC2_PASS"), True)
         print(f"{clrs.c.GREEN}! Logged in Public 2{clrs.c.END}")
-        #PUBLIC2 = True
+        PUBLIC2 = True
     except:
         print(f"{clrs.c.RED} INVALID credential, skipping...{clrs.c.END} ")
         pass
