@@ -1,5 +1,5 @@
 import robin_stocks.robinhood as r
-import color as clrs
+import src.color as clrs
 #import json
 
 PREFIX="[ROBINHOOD]"

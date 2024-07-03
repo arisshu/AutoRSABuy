@@ -1,6 +1,6 @@
 from firstrade import account, order, symbols
 from firstrade.order import get_orders
-import color as clrs
+import src.color as clrs
 
 acctDATA = None
 loginStatus = None

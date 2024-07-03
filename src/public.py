@@ -1,5 +1,5 @@
 from public_invest_api import Public
-import color as clrs
+import src.color as clrs
 #import logging as log
 
 #log.basicConfig(filename='log.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')

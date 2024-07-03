@@ -1,5 +1,5 @@
 from fennel_invest_api import Fennel
-import color as clrs
+import src.color as clrs
 
 PREFIX="[FENNEL]"
 

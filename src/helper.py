@@ -1,11 +1,11 @@
 import yfinance as yf
 import os
-import fennel as f
-import robinhood as r
-import public as p
-import firstradeutil as ft
-import color as clrs
-import helper as utils
+import src.fennel as f
+import src.robinhood as r
+import src.public as p
+import src.firstradeutil as ft
+import src.color as clrs
+import src.helper as utils
 
 def YFgetStockPrice(ticker):
     try:
