@@ -60,13 +60,13 @@ def switchValidation():
 validated = None
 def rhPlaceOrder(side, ticker, accountNumber=None):
     global validated, previousTicker
-    if (validated == None or validated == False) and side == "buy":
-        validated = validationPrompted(ticker)
+    # if (validated == None or validated == False) and side == "buy":
+    #     validated = validationPrompted(ticker)
     #if any(x is None for x in validate):
     #    print(f"{PREFIX} That ticker does not exist, try again")
     #else:
     if side == "buy":
-        if validated:
+        #if validated:
             #for x in validate:
                 #print(f"{PREFIX} Found {x['symbol']} @ {x['last_trade_price']}")
                 #user_input = input(f"{PREFIX} Proceed to buy on Robinhood (Y/n)? ")
@@ -79,6 +79,7 @@ def rhPlaceOrder(side, ticker, accountNumber=None):
                 else:
                     #print("Proceed buy on ira account")
                     buyStatus = r.order_buy_market(ticker, 1, accountNumber)
+                    print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Status: {buyStatus['state'].upper()} CHECK APP CONFIRMATION!{clrs.c.END}")
 
             else:
                 #print("Proceed buy on individual account")
@@ -88,10 +89,11 @@ def rhPlaceOrder(side, ticker, accountNumber=None):
                 else:
                     #print("Proceed buy on individual account")
                     buyStatus = r.order_buy_market(ticker, 1)
+                    print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Status: {buyStatus['state'].upper()} CHECK APP CONFIRMATION!{clrs.c.END}")
                 
-            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Status: {buyStatus['state'].upper()} CHECK APP CONFIRMATION!{clrs.c.END}")
-        else:
-            pass
+            #print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Status: {buyStatus['state'].upper()} CHECK APP CONFIRMATION!{clrs.c.END}")
+        #else:
+            #pass
     else:
         if accountNumber:
             try:
