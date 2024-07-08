@@ -1,5 +1,6 @@
 from public_invest_api import Public
-import color as clrs
+import src.color as clrs
+#import logging as log
 
 
 PREFIX = "[PUBLIC]"
