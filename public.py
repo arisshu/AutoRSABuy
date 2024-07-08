@@ -1,8 +1,6 @@
 from public_invest_api import Public
 import color as clrs
-#import logging as log
 
-#log.basicConfig(filename='log.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
 PREFIX = "[PUBLIC]"
 
@@ -50,27 +48,31 @@ def placeOrder(side, ticker, type=False):
             pass
         else:
             #print(validation)
-            print(f"{PREFIX} Found {validation['symbol']} @ {validation['last']}")
-            x = input(f"{PREFIX} Proceed to buy (Y/n)? ")
-            if x.lower() == "y":
+            #print(f"{PREFIX} Found {validation['symbol']} @ {validation['last']}")
+            #x = input(f"{PREFIX} Proceed to buy (Y/n)? ")
+            #if x.lower() == "y":
                 #print("Proceed buying on Public")
-                order = objectAcct.place_order(
-                    symbol=ticker,
-                    quantity=1,
-                    side=side,
-                    order_type='MARKET',
-                    time_in_force='DAY',
-                    tip=0,
-                )
-                print(f"{clrs.c.SELECTED}{PREFIX} Order placed. STATUS: {order['status']} CHECK APP CONFIRMATION{clrs.c.END}")
+            order = objectAcct.place_order(
+                symbol=ticker,
+                quantity=1,
+                side=side,
+                order_type='MARKET',
+                time_in_force='DAY',
+                tip=0,
+            )
+            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. STATUS: {order['status']} CHECK APP CONFIRMATION{clrs.c.END}")
     else:
-        print("Proceed selling procedure")
-        order = objectAcct.place_order(
-            symbol=ticker,
-            quantity=1,
-            side=side,
-            order_type='MARKET',
-            time_in_force='DAY',
-            tip=0,
-        )
-        print(order)
+        #print("Proceed selling procedure")
+        try:
+            order = objectAcct.place_order(
+                symbol=ticker,
+                quantity=1,
+                side=side,
+                order_type='MARKET',
+                time_in_force='DAY',
+                tip=0,
+            )
+        except:
+            print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell and would result in a short position{clrs.c.END} ")
+            pass
+        

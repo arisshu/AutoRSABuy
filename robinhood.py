@@ -98,14 +98,21 @@ def rhPlaceOrder(side, ticker, accountNumber=None):
                 sellStatus = r.order_sell_market(ticker, 1, accountNumber, 'gfd')
                 print(f"{PREFIX} Order placed. Status: {sellStatus['state'].upper()} CHECK APP CONFIRMATION")
             except:
-                print(f"{PREFIX} {sellStatus['detail']}")
+                if (sellStatus['detail'] == "Never bought shares in that Instrument."):
+                    print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell{clrs.c.END}")
+                else:
+                    print(f"{clrs.c.RED}{PREFIX} Something wrong can't sell share {sellStatus}{clrs.c.END}")
+                pass
                 pass
         else:
             try:
                 sellStatus = r.order_sell_market(ticker, 1, timeInForce='gfd')
                 print(f"{PREFIX} Order placed. Status: {sellStatus['state'].upper()} CHECK APP CONFIRMATION")
             except:
-                print(f"{PREFIX} {sellStatus['detail']}")
+                if (sellStatus['detail'] == "Never bought shares in that Instrument."):
+                    print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell{clrs.c.END}")
+                else:
+                    print(f"{clrs.c.RED}{PREFIX} Something wrong can't sell share {sellStatus}{clrs.c.END}")
                 pass
                 #print(sellStatus)
 

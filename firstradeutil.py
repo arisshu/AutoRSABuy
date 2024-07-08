@@ -4,7 +4,7 @@ import color as clrs
 
 acctDATA = None
 loginStatus = None
-PREFIX = "[FIRSTRADE] "
+PREFIX = "[FIRSTRADE]"
 
 def loginSession(username, password, pin):
     global acctDATA
@@ -64,15 +64,25 @@ def sellOrder(ticker):
     account_numbers = acctDATA.account_numbers
 
     for x in account_numbers:
-        #print(x)
-        orderStatus = order.Order(loginStatus)
-        orderStatus.place_order(
-            x,
-            symbol=ticker,
-            price_type=order.PriceType.MARKET,
-            order_type=order.OrderType.SELL,
-            quantity=1,
-            duration=order.Duration.DAY,
-            dry_run=False,
-        )
-        print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Sell @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")
+        print(f"{PREFIX} Account number: {x}")        
+        try:
+            orderStatus = order.Order(loginStatus)
+            orderStatus.place_order(
+                x,
+                symbol=ticker,
+                price_type=order.PriceType.MARKET,
+                order_type=order.OrderType.SELL,
+                quantity=1,
+                duration=order.Duration.DAY,
+                dry_run=False,
+            )
+            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Sell @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")
+        except:
+            if (orderStatus.order_confirmation['errcode'] == '1040'):
+                print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell{clrs.c.END}")
+            else:
+                print(f"{clrs.c.RED}{PREFIX} Something is wrong, cant sell {orderStatus.order_confirmation}{clrs.c.END}")
+
+
+        #print(orderStatus.order_confirmation)
+        #print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Sell @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")

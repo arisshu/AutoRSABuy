@@ -165,6 +165,7 @@ while (True):
             print("[PUBLIC 2] PUBLIC INDIVIDUAL ACCOUNT")
             p.placeOrder("sell", ticker, True)
         if (FIRSTRADE):
+            #print("[FIRSTRADE] FIRSTRADE Accounts")
             ft.sellOrder(ticker)
 
 

@@ -44,28 +44,29 @@ def createOrder(side, ticker):
         if validation is None:
             print(f"{clrs.c.RED}{PREFIX} That ticker does not exist, try again{clrs.c.END}")
         else:
-            print(f"{PREFIX} Found "+validation['security']['ticker']+" priced @ "+validation['security']['currentStockPrice'])
-            x = input(f"{PREFIX} Proceed to buy on Fennel (Y/n)? ")
+            #print(f"{PREFIX} Found "+validation['security']['ticker']+" priced @ "+validation['security']['currentStockPrice'])
+            #x = input(f"{PREFIX} Proceed to buy on Fennel (Y/n)? ")
             #print(x)
-            if x.lower() == "y":
-                print("Proceeding buying on Fennel")
-                account_ids = f.get_account_ids()
-                for account_id in account_ids:
-                    #print(account_id)
-                    if (positionExistCheck(ticker, account_id)):
-                        print(f"{clrs.c.RED}{PREFIX} Bruh, you already have 1 share of {ticker}, skipping...{clrs.c.END}")
-                    else:
-                        #print("Proceed placing order")
-                        order = f.place_order( 
-                            account_id=account_id,
-                            ticker=ticker,
-                            quantity=1,
-                            side=side, # Must be "buy" or "sell"
-                            price="market" # Only market orders are supported for now
-                        )
-                        print(f'{clrs.c.SELECTED}{PREFIX}Order placed. Check App confirmation!{clrs.c.END}')
-            else:
-                pass
+            #if x.lower() == "y":
+                #print("Proceeding buying on Fennel")
+            account_ids = f.get_account_ids()
+            print(f"{clrs.c.CVIOLET2}{PREFIX} Proceeding to buy on {len(account_ids)} account(s).")
+            for account_id in account_ids:
+                #print(account_id)
+                if (positionExistCheck(ticker, account_id)):
+                    print(f"{clrs.c.RED}{PREFIX} Bruh, you already have 1 share of {ticker}, skipping...{clrs.c.END}")
+                else:
+                    #print("Proceed placing order")
+                    order = f.place_order( 
+                        account_id=account_id,
+                        ticker=ticker,
+                        quantity=1,
+                        side=side, # Must be "buy" or "sell"
+                        price="market" # Only market orders are supported for now
+                    )
+                    print(f'{clrs.c.SELECTED}{PREFIX}Order placed. Check App confirmation!{clrs.c.END}')
+            #else:
+            #    pass
 
     if side == "sell":
         account_ids = f.get_account_ids()
@@ -79,5 +80,8 @@ def createOrder(side, ticker):
                 side=side, # Must be "buy" or "sell"
                 price="market" # Only market orders are supported for now
             )
-            print(order)
+            if (order['data']['createOrder']) == 'error':
+                print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell or unavailable for trading. CHECK APP{clrs.c.END}")
+            else:
+                print(f'{clrs.c.SELECTED}{PREFIX} Order placed. Check App confirmation!{clrs.c.END}')
 
