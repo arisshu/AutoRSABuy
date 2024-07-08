@@ -42,23 +42,34 @@ def getHolding():
 
     #print(accList)
 
+def positionExistCheck(ticker, accObj):
+    positions = acctDATA.get_positions(account=accObj)
+    for key in acctDATA.securities_held:
+        if (ticker in key):
+            return True
+    return False
+
 def buyOrder(ticker,offset):
     account_numbers = acctDATA.account_numbers
 
     for x in account_numbers:
         #print(x,"Proceeding buying")
-        orderStatus = order.Order(loginStatus)
-        orderStatus.place_order(
-            x,
-            symbol=ticker,
-            price_type=order.PriceType.LIMIT,
-            price=getQuotePrice(ticker)+offset,
-            order_type=order.OrderType.BUY,
-            quantity=1,
-            duration=order.Duration.DAY,
-            dry_run=False,
-        )
-        print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Limit @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")
+        if (positionExistCheck(ticker,x)):
+            print(f"{clrs.c.RED}{PREFIX} Bruh, you already have 1 share of {ticker}, skipping...{clrs.c.END}")
+        else:
+            #print("Proceed buy process")
+            orderStatus = order.Order(loginStatus)
+            orderStatus.place_order(
+                x,
+                symbol=ticker,
+                price_type=order.PriceType.LIMIT,
+                price=getQuotePrice(ticker)+offset,
+                order_type=order.OrderType.BUY,
+                quantity=1,
+                duration=order.Duration.DAY,
+                dry_run=False,
+            )
+            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Limit @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")
 
 def sellOrder(ticker):
     account_numbers = acctDATA.account_numbers
