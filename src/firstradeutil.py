@@ -32,11 +32,13 @@ def getHolding():
         # Get positions for the account (assuming this call is necessary for each account)
         position = acctDATA.get_positions(account=x)
 
+        if (len(position) == 0):
+            print(f"No stock owned under this account")
+            continue
         # Iterate over securities held
         for y, details in securities_held.items():
             # Fetch quote for the security
             quote = symbols.SymbolQuote(loginStatus, y)
-
             # Print details
             print(f"{y} x {details['quantity']} \t\tCurrent Price: {quote.last}")
 

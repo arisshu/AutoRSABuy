@@ -21,24 +21,33 @@ def getPosition(roth=None, ira=None):
     currentPrices = r.get_quotes(symbols)
 
     print(f"{clrs.c.GREEN}\n{PREFIX} Your Individual brokerage account{clrs.c.END}")
-    for key, value in holding.items():
-        print(f"{key} x {value['quantity']} \tCurrent Price: {value['price']}")
+    if (len(holding) == 0):
+        print(f"No stock owned under this account")
+    else:
+        for key, value in holding.items():
+            print(f"{key} x {value['quantity']} \tCurrent Price: {value['price']}")
 
     if roth is not None:
-        print(f"{clrs.c.GREEN}{PREFIX} Your Roth IRA account{clrs.c.END}")
-        for x in rothHolding:
-            for y in currentPrices:
-                if y['symbol'] == x['symbol']:
-                    print(f"{x['symbol']} x {x['quantity']} \tCurrent Price: {y['last_trade_price']}")
-                    break
+        if (len(rothHolding) == 0):
+            print(f"No stock owned under this account")
+        else:
+            print(f"{clrs.c.GREEN}{PREFIX} Your Roth IRA account{clrs.c.END}")
+            for x in rothHolding:
+                for y in currentPrices:
+                    if y['symbol'] == x['symbol']:
+                        print(f"{x['symbol']} x {x['quantity']} \tCurrent Price: {y['last_trade_price']}")
+                        break
 
     if ira is not None:
-        print(f"{clrs.c.GREEN}{PREFIX} Your Traditional IRA account{clrs.c.END}")
-        for x in iraHolding:
-            for y in currentPrices:
-                if y['symbol'] == x['symbol']:
-                    print(f"{x['symbol']} x {x['quantity']} \tCurrent Price: {y['last_trade_price']}")
-                    break
+        if (len(iraHolding) == 0):
+            print(f"No stock owned under this account")
+        else:
+            print(f"{clrs.c.GREEN}{PREFIX} Your Traditional IRA account{clrs.c.END}")
+            for x in iraHolding:
+                for y in currentPrices:
+                    if y['symbol'] == x['symbol']:
+                        print(f"{x['symbol']} x {x['quantity']} \tCurrent Price: {y['last_trade_price']}")
+                        break
 
 def validationPrompted(ticker):
     validate = r.get_quotes(ticker)

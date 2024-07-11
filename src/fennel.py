@@ -16,9 +16,11 @@ def getHolding():
     for account_id in account_ids:
         print(f'{clrs.c.CBLUE2}Account ID: {account_id}{clrs.c.END}')
         positions = f.get_stock_holdings(account_id)
-        #print(positions)
+
+        if (len(positions) == 0):
+            print(f"No stock owned under this account")
+            continue
         for position in positions:
-            #print(position)
             #print("\nAccount: "+ position['isin'])
             print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
         #print("")

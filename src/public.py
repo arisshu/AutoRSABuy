@@ -24,6 +24,9 @@ def getHolding(type=False):
     else: objectAcct=p1
 
     positions = objectAcct.get_positions()
+    if (len(positions) == 0):
+        print(f"No stock owned under this account")
+
     if (type): print(f"{clrs.c.BEIGE}{PREFIX} Your 2nd Public Acct position{clrs.c.END}")
     else: print(f"\n{clrs.c.BEIGE}{PREFIX} Your 1st Public Acct position{clrs.c.END}")
     for x in positions:
