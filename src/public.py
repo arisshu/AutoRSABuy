@@ -77,6 +77,7 @@ def placeOrder(side, ticker, type=False):
                 time_in_force='DAY',
                 tip=0,
             )
+            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. STATUS: {order['status']} CHECK APP CONFIRMATION{clrs.c.END}")
         except:
             print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell and would result in a short position{clrs.c.END} ")
             pass
