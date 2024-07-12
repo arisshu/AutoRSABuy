@@ -71,7 +71,8 @@ def buyOrder(ticker,offset):
                 duration=order.Duration.DAY,
                 dry_run=False,
             )
-            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Limit @ {orderStatus.order_confirmation['Est. Commission']} CHECK APP CONFIRMATION!{clrs.c.END}")
+            #print(orderStatus.order_confirmation)
+            print(f"{clrs.c.SELECTED}{PREFIX} Order placed. Limit @ {orderStatus.order_confirmation['Est. Total']} CHECK APP CONFIRMATION!{clrs.c.END}")
 
 def sellOrder(ticker):
     account_numbers = acctDATA.account_numbers
