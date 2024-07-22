@@ -1,7 +1,5 @@
 from public_invest_api import Public
 import src.color as clrs
-#import logging as log
-
 
 PREFIX = "[PUBLIC]"
 
@@ -18,7 +16,7 @@ def loginSession(user, password, type=False):
         wait_for_2fa=True
     )
 
-def getHolding(type=False):
+def getHolding(type=False, searchHighlight=False, ticker=""):
     objectAcct = None
     if (type): objectAcct=p2
     else: objectAcct=p1
@@ -30,8 +28,13 @@ def getHolding(type=False):
     if (type): print(f"{clrs.c.BEIGE}{PREFIX} Your 2nd Public Acct position{clrs.c.END}")
     else: print(f"\n{clrs.c.BEIGE}{PREFIX} Your 1st Public Acct position{clrs.c.END}")
     for x in positions:
-        print(f"{x['instrument']['symbol']} x {x['quantity']} \t\tCurrent Price: {x['previousClose']['previousClose']}")
-
+        if (searchHighlight):
+            if (ticker.upper() == x['instrument']['symbol']):
+                print(f"{clrs.c.SELECTED}{x['instrument']['symbol']} x {x['quantity']} \t\tCurrent Price: {x['previousClose']['previousClose']}{clrs.c.END}")
+            else:
+                print(f"{x['instrument']['symbol']} x {x['quantity']} \t\tCurrent Price: {x['previousClose']['previousClose']}")
+        else:    
+            print(f"{x['instrument']['symbol']} x {x['quantity']} \t\tCurrent Price: {x['previousClose']['previousClose']}")
 
 def placeOrder(side, ticker, type=False):
     objectAcct = None

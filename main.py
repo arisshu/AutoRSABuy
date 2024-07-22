@@ -1,5 +1,6 @@
 import os
 import time
+import survey
 import src.fennel as f
 import src.robinhood as r
 import src.public as p
@@ -94,7 +95,11 @@ else:
     print("No Firstrade credential detected, skipping....")
     pass
 
-time.sleep(3)
+state = None
+with survey.graphics.SpinProgress(prefix = 'Loading... ', suffix = lambda self: state, epilogue = 'Done!') as progress:
+    for state in (state, ' Grabbing data...', ' Importing...', ' Handshaking stock exchange...'):
+        time.sleep(1.5)
+
 os.system('cls')
 if (FENNEL): print(f"{clrs.c.GREEN}✓ Fennel module activated{clrs.c.END}")
 else: print(f"{clrs.c.YELLOW}✖ Fennel module disabled{clrs.c.END}")
@@ -106,32 +111,127 @@ if (FIRSTRADE): print(f"{clrs.c.GREEN}✓ Firstrade module activated{clrs.c.END}
 else: print(f"{clrs.c.YELLOW}✖ Firstrade module disabled{clrs.c.END}")
 
 
-x = None
-while (x != 0):
-    print(f"{clrs.c.YELLOW}\n\n---------------------------")
-    x = int(input(f"[1] Get Position (ALL BROKERAGE) \n[2] Buy Order \n[3] Sell Order \n[4] Search stock exist on broker (WIP, not working fully)\n[Ctrl+C] Exit\n{clrs.c.END}"))
-    if x == 1:
+# x = None
+# while (x != 0):
+#     print(f"{clrs.c.YELLOW}\n\n---------------------------")
+#     x = int(input(f"[1] Get Position (ALL BROKERAGE) \n[2] Buy Order \n[3] Sell Order \n[4] Search stock exist on broker (WIP, not working fully)\n[Ctrl+C] Exit\n{clrs.c.END}"))
+#     if x == 1:
+#         os.system('cls')
+#         if (FENNEL):
+#             f.getHolding()
+#         if (ROBIN):
+#         #    r.getPosition(os.getenv("ROBINROTH"))
+#             r.getPosition(os.getenv("ROBINROTH"), os.getenv("ROBINIRA"))
+#         #    r.getPosition(os.getenv("ROBINROTH"))
+#         if (PUBLIC1):
+#             p.getHolding()
+#         if (PUBLIC2):
+#             p.getHolding(True)
+#         if (FIRSTRADE):
+#             ft.getHolding()
+#     elif x == 2:
+#         os.system('cls')
+#         ticker = input("Ticker name: ")
+#         if (utils.YFgetStockPrice(ticker) != -1):
+#             print(f"Current Price: {clrs.c.BLINK2}{round(utils.YFgetStockPrice(ticker),4)}{clrs.c.END}")
+#         else:
+#             continue
+#         limit = float(input("Limit offset price (Put 0 for market price): "))
+#         if (limit == 0): print(f"{clrs.c.RED}WARNING! Some broker do not allow market order for stock price below $1 !{clrs.c.END}")
+#         if (FENNEL):
+#             f.createOrder("buy", ticker)
+#         if (ROBIN):
+#             print("[ROBINHOOD] INDIVIDUAL Account:")
+#             r.rhPlaceOrder("buy",ticker)
+#             if (ROBINROTH):
+#                 print("[ROBINHOOD] ROTH IRA Account:")
+#                 r.rhPlaceOrder("buy",ticker, os.getenv("ROBINROTH"))
+#             if (ROBINIRA):
+#                 print("[ROBINHOOD] TRADITIONAL IRA Account:")
+#                 r.rhPlaceOrder("buy",ticker, os.getenv("ROBINIRA"))
+#             #if (ROBINIRA):
+#             #    r.rhBuyMarket(ticker, ROBINIRA)
+#             r.switchValidation()
+#         if (PUBLIC1):
+#             print("[PUBLIC 1] PUBLIC INDIVIDUAL ACCOUNT")
+#             p.placeOrder("buy", ticker)
+#         if (PUBLIC2):
+#             print("[PUBLIC 2] PUBLIC INDIVIDUAL ACCOUNT")
+#             p.placeOrder("buy", ticker, True)
+#         if (FIRSTRADE):
+#             ft.buyOrder(ticker,limit)
+#     elif x == 3:
+#         os.system('cls')
+#         ticker = input("Ticker name: ")
+#         #offset = float(input("Limit Price: "))
+#         if (FENNEL):
+#             f.createOrder("sell", ticker)
+#         if (ROBIN):
+#             print("[ROBINHOOD] INDIVIDUAL Account:")
+#             r.rhPlaceOrder("sell", ticker)
+#             if (ROBINROTH):
+#                 print("[ROBINHOOD] ROTH IRA Account:")
+#                 r.rhPlaceOrder("sell",ticker, os.getenv("ROBINROTH"))
+#             if (ROBINIRA):
+#                 print("[ROBINHOOD] TRADITIONAL IRA Account:")
+#                 r.rhPlaceOrder("sell",ticker, os.getenv("ROBINIRA"))
+#         if (PUBLIC1):
+#             print("[PUBLIC 1] PUBLIC INDIVIDUAL ACCOUNT")
+#             p.placeOrder("sell", ticker)
+#         if (PUBLIC2):
+#             print("[PUBLIC 2] PUBLIC INDIVIDUAL ACCOUNT")
+#             p.placeOrder("sell", ticker, True)
+#         if (FIRSTRADE):
+#             #print("[FIRSTRADE] FIRSTRADE Accounts")
+#             ft.sellOrder(ticker)
+#     elif x == 4:
+#         os.system('cls')
+#         ticker = input("Ticker name: ")
+#         if (FENNEL):
+#             f.getHolding(ticker=ticker, searchHighlight=True)
+#         if (PUBLIC1):
+#             p.getHolding(searchHighlight=True, ticker=ticker)
+#         if (PUBLIC2):
+#             p.getHolding(type=True, searchHighlight=True, ticker=ticker)
+
+
+#     else:
+#         os.system("pause")
+#         exit()
+index = None
+while (index != 9):
+    print("\n")
+    option = ('[1] Get Position (ALL BROKERAGE)', '[2] Search stock exist on brokerage (WIP)', '[3] Buy Order', '[4] Sell Order', '[9] End')
+    index = survey.routines.select('Select an option: ', options = option)
+    if index == 0:
         os.system('cls')
         if (FENNEL):
             f.getHolding()
         if (ROBIN):
-        #    r.getPosition(os.getenv("ROBINROTH"))
             r.getPosition(os.getenv("ROBINROTH"), os.getenv("ROBINIRA"))
-        #    r.getPosition(os.getenv("ROBINROTH"))
         if (PUBLIC1):
             p.getHolding()
         if (PUBLIC2):
             p.getHolding(True)
         if (FIRSTRADE):
             ft.getHolding()
-    elif x == 2:
+    elif index == 1:
         os.system('cls')
-        ticker = input("Ticker name: ")
+        ticker = survey.routines.input("Ticker name: ")
+        if (FENNEL):
+            f.getHolding(ticker=ticker, searchHighlight=True)
+        if (PUBLIC1):
+            p.getHolding(searchHighlight=True, ticker=ticker)
+        if (PUBLIC2):
+            p.getHolding(type=True, searchHighlight=True, ticker=ticker)
+    elif index == 2:
+        os.system('cls')
+        ticker = survey.routines.input("Ticker name: ")
         if (utils.YFgetStockPrice(ticker) != -1):
-            print(f"Current Price: {clrs.c.BLINK2}{round(utils.YFgetStockPrice(ticker),4)}{clrs.c.END}")
+            print(f"{clrs.c.YELLOW}Current Price: {clrs.c.SELECTED}{round(utils.YFgetStockPrice(ticker),4)}{clrs.c.END}")
         else:
             continue
-        limit = float(input("Limit offset price (Put 0 for market price): "))
+        limit = float(survey.routines.numeric("Limit offset price (Put 0 for market price): "))
         if (limit == 0): print(f"{clrs.c.RED}WARNING! Some broker do not allow market order for stock price below $1 !{clrs.c.END}")
         if (FENNEL):
             f.createOrder("buy", ticker)
@@ -155,10 +255,9 @@ while (x != 0):
             p.placeOrder("buy", ticker, True)
         if (FIRSTRADE):
             ft.buyOrder(ticker,limit)
-    elif x == 3:
+    elif index == 3:
         os.system('cls')
-        ticker = input("Ticker name: ")
-        #offset = float(input("Limit Price: "))
+        ticker = survey.routines.input("Ticker name: ")
         if (FENNEL):
             f.createOrder("sell", ticker)
         if (ROBIN):
@@ -177,15 +276,8 @@ while (x != 0):
             print("[PUBLIC 2] PUBLIC INDIVIDUAL ACCOUNT")
             p.placeOrder("sell", ticker, True)
         if (FIRSTRADE):
-            #print("[FIRSTRADE] FIRSTRADE Accounts")
+            print("[FIRSTRADE] FIRSTRADE Accounts")
             ft.sellOrder(ticker)
-    elif x == 4:
-        os.system('cls')
-        ticker = input("Ticker name: ")
-        if (FENNEL):
-            f.searchForStock(ticker)
-
-
     else:
         os.system("pause")
         exit()

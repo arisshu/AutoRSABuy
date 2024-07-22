@@ -13,7 +13,7 @@ def loginSession(user):
     #print(loginStatus)
 
     
-def getHolding():
+def getHolding(ticker="",searchHighlight=False):
     #account_ids = f.get_account_ids()
     print(f"{clrs.c.CBLUE2}{PREFIX} You have {len(account_ids)} account(s){clrs.c.END}")
     for account_id in account_ids:
@@ -25,7 +25,15 @@ def getHolding():
             continue
         for position in positions:
             #print("\nAccount: "+ position['isin'])
-            print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
+            if (searchHighlight):
+                if (ticker.upper() == position['security']['ticker']):
+                    print(f"{clrs.c.SELECTED}{position['security']['ticker']} x {position['investment']['ownedShares']} \t\tCurrent Price: {position['security']['currentStockPrice']}{clrs.c.END}")
+                else:
+                    print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
+            else:
+                print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
+
+        #    print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
         #print("")
 
 def searchForStock(ticker):

@@ -10,3 +10,4 @@ def YFgetStockPrice(ticker):
     except:
         #print(ticker_yahoo)
         return -1
+    

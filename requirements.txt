@@ -2,4 +2,5 @@ robin_stocks
 public-invest-api
 fennel-invest-api>=1.0.9
 firstrade
+survey
 yfinance
