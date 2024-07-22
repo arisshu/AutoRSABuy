@@ -19,6 +19,7 @@ def getPosition(roth=None, ira=None):
     symbols = [x['symbol'] for x in rothHolding] + [x['symbol'] for x in iraHolding]
     #print(symbols)
     currentPrices = r.get_quotes(symbols)
+    #print(currentPrices)
 
     print(f"{clrs.c.GREEN}\n{PREFIX} Your Individual brokerage account{clrs.c.END}")
     if (len(holding) == 0):

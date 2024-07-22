@@ -1,4 +1,5 @@
 import os
+import time
 import src.fennel as f
 import src.robinhood as r
 import src.public as p
@@ -93,10 +94,22 @@ else:
     print("No Firstrade credential detected, skipping....")
     pass
 
+time.sleep(3)
+os.system('cls')
+if (FENNEL): print(f"{clrs.c.GREEN}✓ Fennel module activated{clrs.c.END}")
+else: print(f"{clrs.c.YELLOW}✖ Fennel module disabled{clrs.c.END}")
+if (ROBIN): print(f"{clrs.c.GREEN}✓ Robinhood module activated{clrs.c.END}")
+else: print(f"{clrs.c.YELLOW}✖ Robinhood module disabled{clrs.c.END}")
+if (PUBLIC1 or PUBLIC2): print(f"{clrs.c.GREEN}✓ Public module activated{clrs.c.END}")
+else: print(f"{clrs.c.YELLOW}✖ Public module disabled{clrs.c.END}")
+if (FIRSTRADE): print(f"{clrs.c.GREEN}✓ Firstrade module activated{clrs.c.END}")
+else: print(f"{clrs.c.YELLOW}✖ Firstrade module disabled{clrs.c.END}")
+
+
 x = None
-while (True):
+while (x != 0):
     print(f"{clrs.c.YELLOW}\n\n---------------------------")
-    x = int(input(f"(1) Get Position (ALL BROKERAGE) \n(2) Buy Order \n(3) Sell Order \n(Other Key) Exit\n{clrs.c.END}"))
+    x = int(input(f"[1] Get Position (ALL BROKERAGE) \n[2] Buy Order \n[3] Sell Order \n[4] Search stock exist on broker (WIP, not working fully)\n[Ctrl+C] Exit\n{clrs.c.END}"))
     if x == 1:
         os.system('cls')
         if (FENNEL):
@@ -166,6 +179,11 @@ while (True):
         if (FIRSTRADE):
             #print("[FIRSTRADE] FIRSTRADE Accounts")
             ft.sellOrder(ticker)
+    elif x == 4:
+        os.system('cls')
+        ticker = input("Ticker name: ")
+        if (FENNEL):
+            f.searchForStock(ticker)
 
 
     else:

@@ -2,16 +2,19 @@ from fennel_invest_api import Fennel
 import src.color as clrs
 
 PREFIX="[FENNEL]"
-
+account_ids = None
 f = Fennel()
 def loginSession(user):
+    global account_ids
     loginStatus = f.login(
         email=user,
     )
+    account_ids = f.get_account_ids()
     #print(loginStatus)
+
     
 def getHolding():
-    account_ids = f.get_account_ids()
+    #account_ids = f.get_account_ids()
     print(f"{clrs.c.CBLUE2}{PREFIX} You have {len(account_ids)} account(s){clrs.c.END}")
     for account_id in account_ids:
         print(f'{clrs.c.CBLUE2}Account ID: {account_id}{clrs.c.END}')
@@ -24,6 +27,19 @@ def getHolding():
             #print("\nAccount: "+ position['isin'])
             print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
         #print("")
+
+def searchForStock(ticker):
+    availability = []
+    print(f"Searching...")
+    for account_id in account_ids:
+        positions = f.get_stock_holdings(account_id)
+        for position in positions:
+            #print("\nAccount: "+ position['isin'])
+            if (ticker == position['security']['ticker']):
+                print(f"{clrs.c.SELECTED}{position['security']['ticker']} x {position['investment']['ownedShares']} \t\tCurrent Price: {position['security']['currentStockPrice']}{clrs.c.END}")
+            else:
+                print(position['security']['ticker'] +" x " +  position['investment']['ownedShares'] + "\t\tCurrent Price: "+position['security']['currentStockPrice'])
+
 
 def positionExistCheck(ticker, account):
     #account_ids = f.get_account_ids()
@@ -52,7 +68,7 @@ def createOrder(side, ticker):
             #if x.lower() == "y":
                 #print("Proceeding buying on Fennel")
             account_ids = f.get_account_ids()
-            print(f"{clrs.c.CVIOLET2}{PREFIX} Proceeding to buy on {len(account_ids)} account(s).")
+            print(f"{clrs.c.CVIOLET2}{PREFIX} Proceeding to buy on {len(account_ids)} account(s).{clrs.c.END}")
             for account_id in account_ids:
                 #print(account_id)
                 if (positionExistCheck(ticker, account_id)):
@@ -72,18 +88,22 @@ def createOrder(side, ticker):
 
     if side == "sell":
         account_ids = f.get_account_ids()
+        print(f"{clrs.c.CVIOLET2}{PREFIX} Proceeding to sell on {len(account_ids)} account(s).{clrs.c.END}")
         for account_id in account_ids:
-            print(account_id)
+            try:
+                print(account_id)
 
-            order = f.place_order( 
-                account_id=account_id,
-                ticker=ticker,
-                quantity=1,
-                side=side, # Must be "buy" or "sell"
-                price="market" # Only market orders are supported for now
-            )
-            if (order['data']['createOrder']) == 'error':
-                print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell or unavailable for trading. CHECK APP{clrs.c.END}")
-            else:
-                print(f'{clrs.c.SELECTED}{PREFIX} Order placed. Check App confirmation!{clrs.c.END}')
+                order = f.place_order( 
+                    account_id=account_id,
+                    ticker=ticker,
+                    quantity=1,
+                    side=side, # Must be "buy" or "sell"
+                    price="market" # Only market orders are supported for now
+                )
+                if (order['data']['createOrder']) == 'error':
+                    print(f"{clrs.c.RED}{PREFIX} Insufficent share to sell or unavailable for trading. CHECK APP{clrs.c.END}")
+                else:
+                    print(f'{clrs.c.SELECTED}{PREFIX} Order placed. Check App confirmation!{clrs.c.END}')
+            except:
+                print(f"{clrs.c.RED}{PREFIX} Market is closed. Cannnot place order{clrs.c.END}")
 
