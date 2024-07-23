@@ -20,7 +20,7 @@ def loginSession(username, password, pin):
 def getQuotePrice(ticker):
     return symbols.SymbolQuote(loginStatus, ticker).last
 
-def getHolding():
+def getHolding(searchHighlight=False, ticker=""):
     # Local variable to hold account numbers to avoid accessing multiple times
     account_numbers = acctDATA.account_numbers
     securities_held = acctDATA.securities_held
@@ -40,7 +40,15 @@ def getHolding():
             # Fetch quote for the security
             quote = symbols.SymbolQuote(loginStatus, y)
             # Print details
-            print(f"{y} x {details['quantity']} \t\tCurrent Price: {quote.last}")
+            if (searchHighlight):
+                if (ticker == y):
+                    print(f"{clrs.c.SELECTED}{y} x {details['quantity']} \t\tCurrent Price: {quote.last}{clrs.c.END}")
+                else:
+                    print(f"{y} x {details['quantity']} \t\tCurrent Price: {quote.last}")
+            else:
+                print(f"{y} x {details['quantity']} \t\tCurrent Price: {quote.last}")
+
+            #print(f"{y} x {details['quantity']} \t\tCurrent Price: {quote.last}")
 
     #print(accList)
 

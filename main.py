@@ -224,6 +224,8 @@ while (index != 9):
             p.getHolding(searchHighlight=True, ticker=ticker)
         if (PUBLIC2):
             p.getHolding(type=True, searchHighlight=True, ticker=ticker)
+        if (FIRSTRADE):
+            ft.getHolding(True, ticker)
     elif index == 2:
         os.system('cls')
         ticker = survey.routines.input("Ticker name: ")
@@ -234,7 +236,7 @@ while (index != 9):
         limit = float(survey.routines.numeric("Limit offset price (Put 0 for market price): "))
         if (limit == 0): print(f"{clrs.c.RED}WARNING! Some broker do not allow market order for stock price below $1 !{clrs.c.END}")
         if (FENNEL):
-            f.createOrder("buy", ticker)
+            f.createOrder("buy", ticker.upper())
         if (ROBIN):
             print("[ROBINHOOD] INDIVIDUAL Account:")
             r.rhPlaceOrder("buy",ticker)
